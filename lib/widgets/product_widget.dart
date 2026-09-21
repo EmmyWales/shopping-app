@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:mini_shopping_app/data/models/product.dart';
 import 'package:mini_shopping_app/screens/product_detailed_screen.dart';
 import 'package:provider/provider.dart';
-import '../models/product.dart';
 import '../providers/cart_provider.dart';
-
 
 class ProductCard extends StatelessWidget {
   final Product product;
 
-  const ProductCard({
-    super.key,
-    required this.product,
-  });
+  const ProductCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +16,7 @@ class ProductCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => ProductDetailsScreen(
-              product: product,
-            ),
+            builder: (_) => ProductDetailsScreen(product: product),
           ),
         );
       },
@@ -30,9 +24,7 @@ class ProductCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(18),
-          border: Border.all(
-            color: Colors.grey.shade200,
-          ),
+          border: Border.all(color: Colors.grey.shade200),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,13 +37,10 @@ class ProductCard extends StatelessWidget {
                 child: Image.network(
                   product.imageUrl,
                   width: double.infinity,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                   errorBuilder: (_, __, ___) {
                     return const Center(
-                      child: Icon(
-                        Icons.image_not_supported,
-                        size: 40,
-                      ),
+                      child: Icon(Icons.image_not_supported, size: 40),
                     );
                   },
                 ),
@@ -65,10 +54,7 @@ class ProductCard extends StatelessWidget {
                 children: [
                   Text(
                     product.category,
-                    style: TextStyle(
-                      color: Colors.grey.shade600,
-                      fontSize: 12,
-                    ),
+                    style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
                   ),
 
                   const SizedBox(height: 4),
@@ -86,8 +72,7 @@ class ProductCard extends StatelessWidget {
                   const SizedBox(height: 8),
 
                   Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         '£${product.price.toStringAsFixed(2)}',
@@ -99,18 +84,12 @@ class ProductCard extends StatelessWidget {
 
                       GestureDetector(
                         onTap: () {
-                          context
-                              .read<CartProvider>()
-                              .addToCart(product);
+                          context.read<CartProvider>().addToCart(product);
 
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(
+                          ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text(
-                                '${product.name} added to cart',
-                              ),
-                              duration:
-                                  const Duration(seconds: 1),
+                              content: Text('${product.name} added to cart'),
+                              duration: const Duration(seconds: 1),
                             ),
                           );
                         },
@@ -118,8 +97,7 @@ class ProductCard extends StatelessWidget {
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
                             color: Colors.blue,
-                            borderRadius:
-                                BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           child: const Icon(
                             Icons.add,
