@@ -17,20 +17,33 @@ class ProductProvider extends ChangeNotifier {
 
   String? get error => _error;
 
+
+  
+
   Future<void> loadProducts() async {
+    print('START loading products');
     _isLoading = true;
     _error = null;
+    print('Products received: ${_products.length}');
 
     notifyListeners();
 
     try {
-      _products = await _apiService.fetchProducts();
+      final products = await _apiService.fetchProducts();
+
+      print('API returned ${products.length} products');
+      _products = products;
+
+      print('Provider now has ${_products.length} products');
     } catch (e) {
+      print('API ERROR: $e');
+
       _error = e.toString();
     } finally {
       _isLoading = false;
 
       notifyListeners();
+      print('FINISHED loading products');
     }
   }
 
